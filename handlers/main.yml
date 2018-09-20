@@ -1,0 +1,2 @@
+- name: gitlab-ci-multi-runner restart
+  shell: gitlab-ci-multi-runner restart

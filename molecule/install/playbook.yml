@@ -1,0 +1,30 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: False
+  tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      become: True
+      changed_when: False
+
+- name: Converge
+  hosts: all
+  become: yes
+  roles:
+    # - role: role-docker TODO
+    - role: role-gitlab-runner
+  vars:
+
+    docker_enabled: yes
+    docker_compose_version: 1.14.0
+
+    gitlab_runner_enabled: yes
+    gitlab_runner_server_url: "https://{{ ansible_hostname }}"
+    gitlab_runner_registration_token: secret-registration-token
+    gitlab_runner_description: "{{ ansible_hostname }}"
+    gitlab_runner_tags:
+      - foo
+      - bar
+    gitlab_runner_executor: docker
+    gitlab_runner_docker_image: debian/stretch

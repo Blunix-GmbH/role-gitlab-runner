@@ -1,0 +1,27 @@
+- name: template /etc/gitlab/gitlab-runner.rb
+  template:
+    src: templates/etc/gitlab-runner/config.toml.j2
+    dest: /etc/gitlab-runner/config.toml
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - gitlab-ci-multi-runner restart
+
+- meta: flush_handlers
+
+- name: List configured runners
+  command: gitlab-runner list
+  register: gitlab_runner_runners
+  changed_when: False
+
+- name: register the gitlab-runner with gitlab
+  command: gitlab-runner register >
+    --non-interactive
+    --executor '{{ gitlab_runner_executor }}'
+    --docker-image '{{ gitlab_runner_docker_image }}'
+    --url '{{ gitlab_runner_server_url }}'
+    --registration-token '{{ gitlab_runner_registration_token }}'
+    --description '{{ gitlab_runner_description }}'
+    --tag-list '{{ gitlab_runner_tags | join(",") }}'
+  when: gitlab_runner_runners.stderr.find('\n{{ gitlab_runner_description }}') == -1
