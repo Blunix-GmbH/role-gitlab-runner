@@ -1,4 +1,5 @@
 ---
 gitlab_runner_enabled: no
-gitlab_runner_concurrent: 1
-gitlab_runner_check_interval: 0
+gitlab_runner_config_options:
+  concurrent: 1
+  check_interval: 0

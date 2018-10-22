@@ -1,10 +1,16 @@
-- name: template /etc/gitlab/gitlab-runner.rb
-  template:
-    src: templates/etc/gitlab-runner/config.toml.j2
-    dest: /etc/gitlab-runner/config.toml
+# This has to be done by lineinfile as the gitlab-runner process will write to this
+# file after it has registered itself with a gitlab instance
+- name: edit options in /etc/gitlab/gitlab-runner.rb
+  lineinfile:
+    regexp: "^{{ gitlab_runner_config_option }}.*"
+    line: "{{ gitlab_runner_config_option }} = {{ gitlab_runner_config_options[gitlab_runner_config_option] }}"
+    path: /etc/gitlab-runner/config.toml
     owner: root
     group: root
     mode: 0600
+  with_items: "{{ gitlab_runner_config_options }}"
+  loop_control:
+    loop_var: gitlab_runner_config_option
   notify:
     - gitlab-ci-multi-runner restart
 
