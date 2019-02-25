@@ -1,0 +1,24 @@
+galaxy_info:
+  author: Peter Thurner
+  company: Blunix GmbH
+  license: Apache
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: Debian
+    versions:
+    - jessie
+  - name: Ubuntu
+    versions:
+    - Xenial
+
+  galaxy_tags:
+  - blunix
+  - gitlab
+  - gitlab-runner
+
+dependencies: []
+  # - src: git@github.com:blunix/role-docker TODO
+  #   name: blunix.role-docker
+  #   scm: git
+  #   version: 1.1.0

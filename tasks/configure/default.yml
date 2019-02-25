@@ -1,0 +1,33 @@
+# This has to be done by lineinfile as the gitlab-runner process will write to this
+# file after it has registered itself with a gitlab instance
+- name: edit options in /etc/gitlab/gitlab-runner.rb
+  lineinfile:
+    regexp: "^{{ gitlab_runner_config_option }}.*"
+    line: "{{ gitlab_runner_config_option }} = {{ gitlab_runner_config_options[gitlab_runner_config_option] }}"
+    path: /etc/gitlab-runner/config.toml
+    owner: root
+    group: root
+    mode: 0600
+  with_items: "{{ gitlab_runner_config_options }}"
+  loop_control:
+    loop_var: gitlab_runner_config_option
+  notify:
+    - gitlab-ci-multi-runner restart
+
+- meta: flush_handlers
+
+- name: List configured runners
+  command: gitlab-runner list
+  register: gitlab_runner_runners
+  changed_when: False
+
+- name: register the gitlab-runner with gitlab
+  command: gitlab-runner register >
+    --non-interactive
+    --executor '{{ gitlab_runner_executor }}'
+    --docker-image '{{ gitlab_runner_docker_image }}'
+    --url '{{ gitlab_runner_server_url }}'
+    --registration-token '{{ gitlab_runner_registration_token }}'
+    --description '{{ gitlab_runner_description }}'
+    --tag-list '{{ gitlab_runner_tags | join(",") }}'
+  when: gitlab_runner_runners.stderr.find('\n{{ gitlab_runner_description }}') == -1

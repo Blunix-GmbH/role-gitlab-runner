@@ -1,0 +1,5 @@
+---
+- include_tasks: gitlab-runner.yml
+  when: gitlab_runner_enabled
+  tags:
+    - gitlab-runner
