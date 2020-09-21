@@ -1,35 +1,26 @@
-# Ansible Role gitlab-runner
-This role installs and configures a gitlab-runner with docker.
+# blunix_role-gitlab-runner
+This Ansible role installs and configures gitlab-runners.
 
-# TODO
-- pull in docker in molecule and install it (can we do this without force stating a version but just use latest?)
-- tests: `gitlab-ci-multi-runner status` exit status
-
-# Example play
-An example play can be found in `molecule/install/playbook.yml`
-
-# Requirements
-- You will need a gitlab server with it :)
-- Go to the gitlab webui, generate a runner token and use it in the play vars
-- blunix.role-docker
-
-# License
-Apache-2.0
-
-# License
-Apache-2.0
+This role is part of the Blunix hosting stack. Learn how to use it at <a href="https://man.blunix.com/" target="_blank">man.blunix.com</a>.
 
 # Author Information
-Service and support for orchestrated hosting environments,
-continuous integration/deployment/delivery and various Linux
-and open-source technology stacks are available from:
-
-```
 Blunix GmbH - Consulting for Linux Hosting 24/7
-Glogauer Straße 21
-10999 Berlin - Germany
 
-Web: www.blunix.org
-Email: service[at]blunix.org
-Phone: (+49) 30 / 12 08 39 90
+Blunix GmbH provides 24/7 support with Service Level Agreements for Debian Linux based hosting environments which are automated with Ansible.
+
 ```
+Blunix GmbH
+Glogauer Straße 21
+10999 Berlin
+Germany
+
+Website: https://www.blunix.com
+E-Mail:  contact@blunix.com
+gpg key: https://www.blunix.com/contact-blunix-com-gpg-key
+Signal:  +49 176 123 456 78
+```
+
+# License
+Apache-2.0
+
+Please refer to the LICENSE file in the root of this repository.

@@ -1,0 +1,15 @@
+- name: install gitlab-runner
+  hosts: gitci
+  roles:
+    - role: blunix_role-docker_11.0.0
+    - role: blunix_role-gitlab-runner_11.0.0
+  vars:
+
+    gitlab_runner_server_url: "https://git.example.com"
+    gitlab_runner_registration_token: secret-registration-token
+    gitlab_runner_description: "{{ ansible_hostname }}"
+    gitlab_runner_tags:
+      - foo
+      - bar
+    gitlab_runner_executor: docker
+    gitlab_runner_docker_image: debian/bullseye
